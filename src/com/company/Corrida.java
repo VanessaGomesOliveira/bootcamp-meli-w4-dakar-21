@@ -43,25 +43,6 @@ public class Corrida {
 
     }
 
-    // Overload de registarCarro()
-    public void registrarCarro(Carro carro) {
-//            double velocidade, double aceleracao,
-//            double anguloDeGiro, String placa) {
-
-        if (listaDeVeiculos.size() < quantidadeVeiculosPermitidos) {
-            String placa = carro.getPlaca();
-
-            listaDeVeiculos.put(placa, carro);
-            System.out.println("Carro " + placa + " adicionado com sucesso.");
-
-            printVagasRestantes();
-
-        } else {
-            System.out.println("Não há mais vagas para essa corrida");
-        }
-
-    }
-
     public void registrarMoto(
             double velocidade, double aceleracao,
             double anguloDeGiro, String placa) {
@@ -83,23 +64,45 @@ public class Corrida {
             System.out.println("Não há mais vagas para essa corrida");
         }
     }
-    // Overload de registrarMoto()
-    public void registrarMoto(Moto moto) {
+
+    public void registrarVeiculo(Veiculo veiculo) {
 //            double velocidade, double aceleracao,
 //            double anguloDeGiro, String placa) {
 
         if (listaDeVeiculos.size() < quantidadeVeiculosPermitidos) {
-            String placa = moto.getPlaca();
+            String placa = veiculo.getPlaca();
 
-            listaDeVeiculos.put(placa, moto);
-            System.out.println("Moto " + placa + " adicionada com sucesso.");
+            listaDeVeiculos.put(placa, veiculo);
 
+            if (veiculo.getClass().equals(Carro.class)) {
+                System.out.println("Carro " + placa + " adicionado com sucesso.");
+            } else {
+                System.out.println("Moto " + placa + " adicionada com sucesso.");
+            }
             printVagasRestantes();
 
         } else {
             System.out.println("Não há mais vagas para essa corrida");
         }
+
     }
+    // Overload de registrarMoto()
+//    public void registrarMoto(Moto moto) {
+////            double velocidade, double aceleracao,
+////            double anguloDeGiro, String placa) {
+//
+//        if (listaDeVeiculos.size() < quantidadeVeiculosPermitidos) {
+//            String placa = moto.getPlaca();
+//
+//            listaDeVeiculos.put(placa, moto);
+//            System.out.println("Moto " + placa + " adicionada com sucesso.");
+//
+//            printVagasRestantes();
+//
+//        } else {
+//            System.out.println("Não há mais vagas para essa corrida");
+//        }
+//    }
 
     public void removerVeiculo(Veiculo veiculo) {
         String placa = veiculo.getPlaca();
@@ -107,9 +110,16 @@ public class Corrida {
     }
 
     public void removerVeiculoPorPlaca(String placa) {
-        listaDeVeiculos.remove(placa);
-        System.out.println("Veículo " + placa + " removido com sucesso.");
-        printVagasRestantes();
+        if (listaDeVeiculos.containsKey(placa)) {
+            listaDeVeiculos.remove(placa);
+            System.out.println("Veículo " + placa + " removido com sucesso.");
+            printVagasRestantes();
+        } else {
+            System.out.println("Não existe veículo com a placa " + placa + ".");
+            System.out.print("Lista de placas registrada: ");
+            System.out.println(listaDeVeiculos.keySet());
+            printVagasRestantes();
+        }
     }
 
     public void printVagasRestantes () {
@@ -120,6 +130,8 @@ public class Corrida {
                 : " não tem mais vagas.";
         System.out.println("A corrida " + nome + vagasStr);
     }
+
+//    String resultado =  valor == true ? "okay" : "Nao okay";
 
     public void printVencedor() {
         String placaVencedor = "";
